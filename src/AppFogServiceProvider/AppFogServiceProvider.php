@@ -46,7 +46,7 @@ class AppFogServiceProvider implements ServiceProviderInterface
         {
             foreach($appFogServices as $service => $params)
             {
-                $this->appFogServices[$service] => $params;
+                $this->appFogServices[$service] = $params;
             }
         }
     }
