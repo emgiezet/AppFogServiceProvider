@@ -1,5 +1,5 @@
 {
-    "name": "emgiezet/AppFogServiceProvider",
+    "name": "emgiezet/appfog-service-provider",
     "type": "library",
     "description": "Service provider for AppFog ",
     "keywords": ["silex", "AppFog", "service provider"],
