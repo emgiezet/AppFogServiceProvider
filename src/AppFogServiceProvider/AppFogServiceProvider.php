@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
  */
 class AppFogServiceProvider implements ServiceProviderInterface
 {
-    private $appFogServices;
+    private $appFogServices = array();
     /**
      * 
      * @param Application $app
@@ -44,7 +44,15 @@ class AppFogServiceProvider implements ServiceProviderInterface
         }
         else
         {
-            
+            foreach($appFogServices as $service => $params)
+            {
+                $this->appFogServices[$service] => $params;
+            }
         }
+    }
+    
+    public function getCredentials($service, $name)
+    {
+        return $this->appFogServices[$service];
     }
 }
