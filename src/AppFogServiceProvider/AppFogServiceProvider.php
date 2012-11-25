@@ -22,6 +22,7 @@ class AppFogServiceProvider implements ServiceProviderInterface
     {
         $services = getenv("VCAP_SERVICES");
         $app['appfog'] = $this->prepareServices($services);
+        //$app['appfog.predis'] = $this->getCredentials($service, $name);
     }
     /**
      * 
@@ -37,22 +38,31 @@ class AppFogServiceProvider implements ServiceProviderInterface
      */
     protected function prepareServices($services)
     {
-        $appFogServices = json_decode($services,true);
-        if(!is_array($appFogServices))
-        {
+        $appFogServices = json_decode($services, true);
+        if (!is_array($appFogServices)) {
             return array();
-        }
-        else
-        {
-            foreach($appFogServices as $service => $params)
-            {
+        } else {
+            foreach ($appFogServices as $service => $params) {
                 $this->appFogServices[$service] = $params;
             }
         }
+        return $this->appFogServices;
     }
-    
+
     public function getCredentials($service, $name)
     {
-        return $this->appFogServices[$service];
+        $credentials = false;
+        foreach ($app['appfog'][$service] as $instance) {
+            if ($instance['name'] == $name)
+                $credentials = $instance['credentials'];
+        }
+        if ($credentials) {
+            return array('host' => $credentials->hostname,
+                    'port' => $credentials['port'],
+                    'password' => $credentials['password'],
+                    'name' => $credentials['name'],);
+        } else {
+            return false;
+        }
     }
 }
